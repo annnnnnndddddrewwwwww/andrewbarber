@@ -53,7 +53,7 @@ const CALENDAR_OWNER_EMAIL = process.env.CALENDAR_OWNER_EMAIL;
 // Nodemailer
 const transporter = nodemailer.createTransport({
     // Agregar DESPUÉS de crear transporter:
-    console.log('🔧 Configurando Nodemailer...');
+    console.log('Configurando Nodemailer...');
     console.log('EMAIL_USER:', process.env.EMAIL_USER);
 
     // Configuración mejorada con timeout
