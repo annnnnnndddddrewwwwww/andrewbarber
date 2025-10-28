@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Salón de Belleza - Sistema de Reservas</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <script src="https://www.paypal.com/sdk/js?client-id=AcHVDv1aIL8zXveIKKXRdXr6AR6NHLrlxHhPnzH1IaEWvWPqVrWL8JY2FB0JGMolSAZJAMczs5PRKcHa&currency=EUR" data-sdk-integration-source="button-factory"></script>
     <style>
         * {
             margin: 0;
@@ -20,7 +21,7 @@
             position: relative;
         }
 
-        /* ===== PANTALLA DE CARGA ===== */
+        /* ===== PANTALLA DE CARGA (UNCHANGED) ===== */
         #loadingScreen {
             position: fixed;
             top: 0;
@@ -36,10 +37,10 @@
             transition: opacity 0.6s ease, visibility 0.6s ease;
         }
 
-        #loadingScreen.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
+            #loadingScreen.hidden {
+                opacity: 0;
+                visibility: hidden;
+            }
 
         .loading-content {
             text-align: center;
@@ -51,6 +52,7 @@
                 opacity: 0;
                 transform: scale(0.9);
             }
+
             to {
                 opacity: 1;
                 transform: scale(1);
@@ -68,6 +70,7 @@
             0%, 100% {
                 transform: translateY(0px);
             }
+
             50% {
                 transform: translateY(-20px);
             }
@@ -90,24 +93,25 @@
             animation: spin 1s cubic-bezier(0.5, 0, 0.5, 1) infinite;
         }
 
-        .spinner-ring:nth-child(1) {
-            animation-delay: -0.45s;
-        }
+            .spinner-ring:nth-child(1) {
+                animation-delay: -0.45s;
+            }
 
-        .spinner-ring:nth-child(2) {
-            animation-delay: -0.3s;
-            border-top-color: rgba(255, 255, 255, 0.6);
-        }
+            .spinner-ring:nth-child(2) {
+                animation-delay: -0.3s;
+                border-top-color: rgba(255, 255, 255, 0.6);
+            }
 
-        .spinner-ring:nth-child(3) {
-            animation-delay: -0.15s;
-            border-top-color: rgba(255, 255, 255, 0.3);
-        }
+            .spinner-ring:nth-child(3) {
+                animation-delay: -0.15s;
+                border-top-color: rgba(255, 255, 255, 0.3);
+            }
 
         @keyframes spin {
             0% {
                 transform: rotate(0deg);
             }
+
             100% {
                 transform: rotate(360deg);
             }
@@ -132,6 +136,7 @@
             0%, 100% {
                 opacity: 1;
             }
+
             50% {
                 opacity: 0.6;
             }
@@ -146,12 +151,15 @@
             0%, 20% {
                 content: '';
             }
+
             40% {
                 content: '.';
             }
+
             60% {
                 content: '..';
             }
+
             80%, 100% {
                 content: '...';
             }
@@ -169,8 +177,15 @@
         }
 
         @keyframes gradientShift {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.8; transform: scale(1.1); }
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.1);
+            }
         }
 
         .orb {
@@ -209,9 +224,17 @@
         }
 
         @keyframes floatOrb {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            33% { transform: translate(100px, -100px) scale(1.2); }
-            66% { transform: translate(-80px, 80px) scale(0.8); }
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            33% {
+                transform: translate(100px, -100px) scale(1.2);
+            }
+
+            66% {
+                transform: translate(-80px, 80px) scale(0.8);
+            }
         }
 
         .container {
@@ -235,8 +258,13 @@
         }
 
         @keyframes gentleFloat {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
+            0%, 100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
         }
 
         h1 {
@@ -292,11 +320,11 @@
             transition: all 0.3s;
         }
 
-        .auth-tab.active {
-            background: rgba(255, 255, 255, 0.9);
-            color: #ff6b9d;
-            border-color: white;
-        }
+            .auth-tab.active {
+                background: rgba(255, 255, 255, 0.9);
+                color: #ff6b9d;
+                border-color: white;
+            }
 
         .input-group {
             position: relative;
@@ -312,7 +340,8 @@
             z-index: 2;
         }
 
-        input {
+        /* MODIFICADO: Agregado 'select' */
+        input, select {
             width: 100%;
             padding: 18px 20px 18px 55px;
             background: rgba(255, 255, 255, 0.3);
@@ -324,13 +353,24 @@
             transition: all 0.3s;
             outline: none;
             font-weight: 500;
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        select {
+            padding-right: 20px;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 18px;
         }
 
         input::placeholder {
             color: rgba(255, 255, 255, 0.7);
         }
 
-        input:focus {
+        input:focus, select:focus {
             border-color: white;
             background: rgba(255, 255, 255, 0.4);
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
@@ -350,16 +390,17 @@
             box-shadow: 0 10px 30px rgba(255, 107, 157, 0.4);
         }
 
-        .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255, 107, 157, 0.6);
-        }
+            .btn-primary:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 15px 40px rgba(255, 107, 157, 0.6);
+            }
 
-        .btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
+            .btn-primary:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+                transform: none;
+                box-shadow: none;
+            }
 
         /* USER NAV */
         .user-nav {
@@ -408,153 +449,37 @@
             transition: all 0.3s;
         }
 
-        .btn-nav:hover {
-            background: rgba(255, 255, 255, 0.5);
-            border-color: white;
-        }
+            .btn-nav:hover {
+                background: rgba(255, 255, 255, 0.5);
+            }
 
-        .btn-nav.active {
-            background: rgba(255, 255, 255, 0.9);
-            color: #ff6b9d;
-            border-color: white;
-        }
+            .btn-nav.active {
+                background: rgba(255, 255, 255, 0.9);
+                color: #c471ed;
+            }
 
-        /* SERVICES */
-        .section-title {
-            color: white;
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 30px;
-            text-align: center;
-            text-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .services-grid {
+        /* RESERVATION CARD LIST */
+        .appointment-list {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .service-card {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 30px;
-            cursor: pointer;
-            transition: all 0.4s;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-        }
-
-        .service-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-            border-color: rgba(255, 255, 255, 0.6);
-        }
-
-        .service-card.active {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.85));
-            border-color: white;
-            transform: translateY(-10px) scale(1.03);
-        }
-
-        .service-icon {
-            font-size: 40px;
-            margin-bottom: 15px;
-        }
-
-        .service-name {
-            font-size: 20px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 8px;
-            transition: color 0.3s;
-        }
-
-        .service-card.active .service-name {
-            color: #ff6b9d;
-        }
-
-        .service-duration {
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 10px;
-        }
-
-        .service-card.active .service-duration {
-            color: #c471ed;
-        }
-
-        .service-price {
-            font-size: 28px;
-            font-weight: 800;
-            color: white;
-        }
-
-        .service-card.active .service-price {
-            background: linear-gradient(135deg, #ff6b9d, #c471ed);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .discount-badge {
-            display: inline-block;
-            background: #11998e;
-            color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            margin-top: 10px;
-        }
-
-        /* TIME SLOTS */
-        .time-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
-        }
-
-        .time-slot {
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.25);
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            border-radius: 12px;
-            color: white;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: center;
-        }
-
-        .time-slot:hover {
-            background: rgba(255, 255, 255, 0.4);
-            transform: translateY(-5px);
-            border-color: white;
-        }
-
-        .time-slot.active {
-            background: rgba(255, 255, 255, 0.95);
-            color: #ff6b9d;
-            border-color: white;
-            transform: translateY(-5px) scale(1.05);
-        }
-
-        /* MY APPOINTMENTS */
-        .appointments-list {
-            display: flex;
-            flex-direction: column;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
+            margin-top: 20px;
         }
 
         .appointment-card {
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(20px);
-            border-radius: 20px;
-            padding: 25px;
-            border: 2px solid rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: default;
         }
+
+            .appointment-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            }
 
         .appointment-header {
             display: flex;
@@ -566,231 +491,438 @@
         .appointment-service {
             font-size: 20px;
             font-weight: 700;
-            color: white;
         }
 
         .appointment-status {
-            padding: 6px 15px;
-            border-radius: 20px;
+            padding: 5px 10px;
+            border-radius: 10px;
             font-size: 12px;
             font-weight: 600;
         }
 
+        /* Modificado: Colores de estado */
         .status-confirmed {
-            background: #11998e;
+            background-color: #38a169; /* Verde para Completado */
+            color: white;
+        }
+
+        .status-pending {
+            background-color: #f6ad55; /* Naranja para Pendiente */
             color: white;
         }
 
         .appointment-details {
-            color: rgba(255, 255, 255, 0.95);
             font-size: 14px;
             line-height: 1.8;
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        .hidden {
-            display: none !important;
+        /* NEW STYLES: Payment Selection */
+        .payment-options-group {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
         }
 
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 20px;
+            .payment-options-group h3 {
+                color: white;
+                font-size: 18px;
+                margin-bottom: 15px;
+                font-weight: 600;
+            }
+
+        .payment-method {
+            display: block;
+            margin-bottom: 10px;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+            .payment-method:hover {
+                background: rgba(255, 255, 255, 0.2);
+            }
+
+            .payment-method input[type="radio"] {
+                display: none;
+            }
+
+                .payment-method input[type="radio"]:checked + span {
+                    border-color: #ff6b9d;
+                    background: rgba(255, 107, 157, 0.3);
+                    padding: 10px;
+                    border-radius: 8px;
+                    display: block;
+                }
+
+        .payment-method-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .payment-info {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 5px;
+            padding: 5px 0;
+        }
+
+        #paypal-button-container {
+            margin-top: 20px;
+            display: none; /* Hidden by default */
+        }
+
+        /* NEW STYLES: Status Message Modal/Overlay */
+        #statusOverlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9990;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+            #statusOverlay.visible {
+                opacity: 1;
+                visibility: visible;
+            }
+
+        .status-modal {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            transform: scale(0.8);
+            transition: transform 0.3s ease-out;
+        }
+
+        #statusOverlay.visible .status-modal {
+            transform: scale(1);
+        }
+
+        .status-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .status-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #ff6b9d;
+            margin-bottom: 10px;
+        }
+
+        .status-message {
+            color: #4a5568;
+            font-size: 16px;
             margin-bottom: 30px;
         }
 
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 36px; }
-            .glass-card { padding: 30px 20px; }
-            .services-grid { grid-template-columns: 1fr; }
-            .time-grid { grid-template-columns: repeat(3, 1fr); }
-            .user-nav { flex-direction: column; gap: 15px; }
-            .nav-buttons { width: 100%; }
-            .btn-nav { flex: 1; }
+        .btn-modal-close {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #c471ed, #ff6b9d);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
         }
     </style>
 </head>
 <body>
+
     <div class="orb orb1"></div>
     <div class="orb orb2"></div>
     <div class="orb orb3"></div>
 
-    <div class="container">
-        <div class="header">
-            <div class="logo-img">💇‍♀️</div>
-            <h1>Salón de Belleza</h1>
-            <p class="subtitle">Tu belleza, nuestra pasión</p>
-        </div>
-
-        <!-- AUTH SCREEN -->
-        <div id="authScreen" class="glass-card">
-            <div class="auth-container">
-                <div class="auth-tabs">
-                    <button class="auth-tab active" onclick="showAuthTab('login')">Iniciar Sesión</button>
-                    <button class="auth-tab" onclick="showAuthTab('register')">Registrarse</button>
-                </div>
-
-                <!-- LOGIN FORM -->
-                <div id="loginForm">
-                    <div class="input-group">
-                        <span class="input-icon">📧</span>
-                        <input type="email" id="loginEmail" placeholder="Email">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-icon">🔒</span>
-                        <input type="password" id="loginPassword" placeholder="Contraseña">
-                    </div>
-                    <button class="btn-primary" onclick="handleLogin()">Iniciar Sesión</button>
-                </div>
-
-                <!-- REGISTER FORM -->
-                <div id="registerForm" class="hidden">
-                    <div class="input-group">
-                        <span class="input-icon">👤</span>
-                        <input type="text" id="registerName" placeholder="Nombre completo">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-icon">📧</span>
-                        <input type="email" id="registerEmail" placeholder="Email">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-icon">📱</span>
-                        <input type="tel" id="registerPhone" placeholder="Teléfono">
-                    </div>
-                    <div class="input-group">
-                        <span class="input-icon">🔒</span>
-                        <input type="password" id="registerPassword" placeholder="Contraseña">
-                    </div>
-                    <button class="btn-primary" onclick="handleRegister()">Crear Cuenta</button>
-                </div>
+    <div id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-logo">💇‍♀️</div>
+            <div class="loading-spinner">
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
+                <div class="spinner-ring"></div>
             </div>
-        </div>
-
-        <!-- MAIN APP -->
-        <div id="mainApp" class="hidden">
-            <!-- USER NAV -->
-            <div class="user-nav">
-                <div class="user-info">
-                    <div class="user-avatar">👤</div>
-                    <div>
-                        <div id="userName">Usuario</div>
-                        <div style="font-size: 12px; opacity: 0.8;">🎁 <span id="userDiscount">0</span> descuentos disponibles</div>
-                    </div>
-                </div>
-                <div class="nav-buttons">
-                    <button class="btn-nav active" onclick="showSection('booking')">Nueva Cita</button>
-                    <button class="btn-nav" onclick="showSection('appointments')">Mis Citas</button>
-                    <button class="btn-nav" onclick="handleLogout()">Salir</button>
-                </div>
-            </div>
-
-            <!-- BOOKING SECTION -->
-            <div id="bookingSection" class="glass-card">
-                <h2 class="section-title">✨ Selecciona tu Servicio</h2>
-                <div class="services-grid" id="servicesGrid"></div>
-
-                <div class="form-grid">
-                    <div class="input-group">
-                        <span class="input-icon">📅</span>
-                        <input type="date" id="date" required>
-                    </div>
-                </div>
-
-                <h2 class="section-title">⏰ Elige tu Horario</h2>
-                <div class="time-grid" id="timeGrid"></div>
-
-                <button class="btn-primary" id="submitBtn" disabled onclick="handleBooking()">
-                    Confirmar Reserva
-                </button>
-            </div>
-
-            <!-- APPOINTMENTS SECTION -->
-            <div id="appointmentsSection" class="glass-card hidden">
-                <h2 class="section-title">📅 Mis Citas</h2>
-                <div class="appointments-list" id="appointmentsList"></div>
-            </div>
+            <div class="loading-text">Cargando Sistema<span class="loading-dots"></span></div>
+            <div class="loading-subtext">Reservas Premium para Salón de Belleza</div>
         </div>
     </div>
 
+    <div class="container">
+        <header class="header">
+            <div class="logo-img">💇‍♀️</div>
+            <h1 id="mainTitle">Sistema de Reservas</h1>
+            <p class="subtitle" id="mainSubtitle">Salón de Belleza</p>
+        </header>
+
+        <section id="authScreen" class="auth-container glass-card">
+            <div class="auth-tabs">
+                <div id="tabLogin" class="auth-tab active">Iniciar Sesión</div>
+                <div id="tabRegister" class="auth-tab">Registro</div>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+                <div class="input-group">
+                    <span class="input-icon">📧</span>
+                    <input type="email" id="loginEmail" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <span class="input-icon">🔒</span>
+                    <input type="password" id="loginPassword" placeholder="Contraseña" required>
+                </div>
+                <p id="loginMessage" style="color: white; margin-bottom: 15px; text-align: center;"></p>
+                <button type="submit" class="btn-primary">Entrar</button>
+            </form>
+
+            <form id="registerForm" class="auth-form" style="display: none;">
+                <div class="input-group">
+                    <span class="input-icon">👤</span>
+                    <input type="text" id="registerName" placeholder="Nombre Completo" required>
+                </div>
+                <div class="input-group">
+                    <span class="input-icon">📧</span>
+                    <input type="email" id="registerEmail" placeholder="Email" required>
+                </div>
+                <div class="input-group">
+                    <span class="input-icon">📞</span>
+                    <input type="tel" id="registerPhone" placeholder="Teléfono" required>
+                </div>
+                <div class="input-group">
+                    <span class="input-icon">🔒</span>
+                    <input type="password" id="registerPassword" placeholder="Contraseña" required>
+                </div>
+                <p id="registerMessage" style="color: white; margin-bottom: 15px; text-align: center;"></p>
+                <button type="submit" class="btn-primary">Registrarse</button>
+            </form>
+        </section>
+
+        <section id="mainAppScreen" style="display: none;">
+
+            <div class="user-nav glass-card">
+                <div class="user-info">
+                    <div class="user-avatar" id="userAvatar"></div>
+                    <div>
+                        <span id="userNameDisplay"></span>
+                        <p style="font-size: 12px; font-weight: 400; color: rgba(255, 255, 255, 0.7);">Mis citas: <span id="appointmentCountDisplay">0</span></p>
+                    </div>
+                </div>
+                <div class="nav-buttons">
+                    <button class="btn-nav active" id="btnNavBook">Reservar</button>
+                    <button class="btn-nav" id="btnNavAppointments">Mis Citas</button>
+                    <button class="btn-nav" id="btnLogout">Cerrar Sesión</button>
+                </div>
+            </div>
+
+            <div id="bookingSection" class="glass-card">
+                <h2>📅 Nueva Reserva</h2>
+                <p class="subtitle" style="margin-bottom: 30px; font-size: 16px;">Selecciona tu servicio, fecha y hora.</p>
+
+                <form id="bookAppointmentForm">
+                    <div class="input-group">
+                        <span class="input-icon">✂️</span>
+                        <select id="serviceKey" required>
+                            <option value="">Seleccionar Servicio</option>
+                            <option value="corte" data-price="25">Corte de Pelo (45 min) - 25€</option>
+                            <option value="tinte" data-price="60">Tinte (120 min) - 60€</option>
+                            <option value="mechas" data-price="80">Mechas (150 min) - 80€</option>
+                            <option value="peinado" data-price="35">Peinado (60 min) - 35€</option>
+                            <option value="tratamiento" data-price="45">Tratamiento Capilar (90 min) - 45€</option>
+                            <option value="manicura" data-price="20">Manicura (45 min) - 20€</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-icon">📆</span>
+                        <input type="date" id="date" required>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-icon">⏰</span>
+                        <select id="time" required>
+                            <option value="">Seleccionar Hora</option>
+                        </select>
+                    </div>
+
+                    <div id="priceDetails" style="color: white; font-weight: 600; margin-bottom: 20px; padding: 10px; background: rgba(255, 255, 255, 0.15); border-radius: 10px;">
+                        Precio base: <span id="basePrice">0.00</span>€ <span id="discountText" style="color: #38a169; margin-left: 10px;"></span><br>
+                        Precio Neto: <span id="netPrice">0.00</span>€
+                    </div>
+
+                    <div class="payment-options-group">
+                        <h3>Método de Pago 💳</h3>
+                        <label class="payment-method">
+                            <input type="radio" name="paymentMethod" value="tienda" id="radioTienda" checked>
+                            <span class="payment-method-label">
+                                <span>💵 Pagar en Tienda</span>
+                                <span style="font-size: 16px; font-weight: 700; color: #38a169;">GRATIS</span>
+                            </span>
+                            <div id="in-store-payment-details" class="payment-info" style="display: block;">
+                                Tu reserva será registrada como **Pendiente de Pago** en tienda.
+                            </div>
+                        </label>
+                        <label class="payment-method">
+                            <input type="radio" name="paymentMethod" value="paypal" id="radioPaypal">
+                            <span class="payment-method-label">
+                                <span>💳 PayPal</span>
+                                <span id="paypalGrossPriceDisplay" style="font-size: 16px; font-weight: 700; color: #4facfe;">0.00€</span>
+                            </span>
+                            <div id="paypalCommissionInfo" class="payment-info" style="display: none;">
+                                Incluye comisión de PayPal. Precio base que recibirás: <span id="netPriceForPaypal">0.00</span>€
+                            </div>
+                        </label>
+                    </div>
+
+                    <p id="bookingMessage" style="color: white; margin-bottom: 15px; text-align: center;"></p>
+
+                    <button type="button" class="btn-primary" id="btnBookAppointment">Confirmar Reserva (Pagar en Tienda)</button>
+
+                    <div id="paypal-button-container">
+                    </div>
+
+                </form>
+            </div>
+
+            <div id="appointmentsSection" class="glass-card" style="display: none;">
+                <h2>📋 Mis Citas</h2>
+                <p class="subtitle" style="margin-bottom: 30px; font-size: 16px;">Aquí puedes ver todas tus reservas.</p>
+                <div id="myAppointmentsList" class="appointment-list">
+                    <p style="color: white; text-align: center;">Cargando citas...</p>
+                </div>
+            </div>
+
+        </section>
+
+    </div>
+
+    <div id="statusOverlay">
+        <div class="status-modal">
+            <div class="status-icon" id="statusIcon"></div>
+            <div class="status-title" id="statusTitle"></div>
+            <div class="status-message" id="statusMessage"></div>
+            <button class="btn-modal-close" onclick="closeStatusModal()">Entendido</button>
+        </div>
+    </div>
+
+
     <script>
+        // --- SERVICE CONFIG (Keep in sync with server) ---
+        const services = {
+            corte: { name: 'Corte de Pelo', duration: 45, price: 25 },
+            tinte: { name: 'Tinte', duration: 120, price: 60 },
+            mechas: { name: 'Mechas', duration: 150, price: 80 },
+            peinado: { name: 'Peinado', duration: 60, price: 35 },
+            tratamiento: { name: 'Tratamiento Capilar', duration: 90, price: 45 },
+            manicura: { name: 'Manicura', duration: 45, price: 20 }
+        };
+
         let currentUser = null;
-        let userAppointments = [];
-        let selectedService = null;
-        let selectedTime = null;
-        let selectedDate = null;
+        let finalNetPrice = 0;
+        let finalGrossPrice = 0;
+        let isRecurring = false;
 
-        const services = [
-            { id: 'corte', icon: '✂️', name: 'Corte de Pelo', duration: 45, price: 25 },
-            { id: 'tinte', icon: '🎨', name: 'Tinte', duration: 120, price: 60 },
-            { id: 'mechas', icon: '✨', name: 'Mechas', duration: 150, price: 80 },
-            { id: 'peinado', icon: '💆‍♀️', name: 'Peinado', duration: 60, price: 35 },
-            { id: 'tratamiento', icon: '🌿', name: 'Tratamiento Capilar', duration: 90, price: 45 },
-            { id: 'manicura', icon: '💅', name: 'Manicura', duration: 45, price: 20 }
-        ];
+        // --- DOM Elements (Updated) ---
+        const loadingScreen = document.getElementById('loadingScreen');
+        const authScreen = document.getElementById('authScreen');
+        const mainAppScreen = document.getElementById('mainAppScreen');
+        const tabLogin = document.getElementById('tabLogin');
+        const tabRegister = document.getElementById('tabRegister');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        const bookingSection = document.getElementById('bookingSection');
+        const appointmentsSection = document.getElementById('appointmentsSection');
+        const btnNavBook = document.getElementById('btnNavBook');
+        const btnNavAppointments = document.getElementById('btnNavAppointments');
+        const btnLogout = document.getElementById('btnLogout');
+        const myAppointmentsList = document.getElementById('myAppointmentsList');
+        const serviceKey = document.getElementById('serviceKey');
+        const dateInput = document.getElementById('date');
+        const timeSelect = document.getElementById('time');
+        const basePriceDisplay = document.getElementById('basePrice');
+        const netPriceDisplay = document.getElementById('netPrice');
+        const discountText = document.getElementById('discountText');
+        const bookingMessage = document.getElementById('bookingMessage');
+        const btnBookAppointment = document.getElementById('btnBookAppointment');
 
-        // AUTH FUNCTIONS
-        function showAuthTab(tab) {
-            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            if (tab === 'login') {
-                document.getElementById('loginForm').classList.remove('hidden');
-                document.getElementById('registerForm').classList.add('hidden');
+        // Payment elements
+        const radioTienda = document.getElementById('radioTienda');
+        const radioPaypal = document.getElementById('radioPaypal');
+        const paypalGrossPriceDisplay = document.getElementById('paypalGrossPriceDisplay');
+        const paypalCommissionInfo = document.getElementById('paypalCommissionInfo');
+        const netPriceForPaypal = document.getElementById('netPriceForPaypal');
+        const paypalButtonContainer = document.getElementById('paypal-button-container');
+        const inStorePaymentDetails = document.getElementById('in-store-payment-details');
+
+        // Status Modal Elements
+        const statusOverlay = document.getElementById('statusOverlay');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusTitle = document.getElementById('statusTitle');
+        const statusMessage = document.getElementById('statusMessage');
+
+        // --- Status Modal Functions (NEW) ---
+        function showStatusModal(icon, title, message) {
+            statusIcon.textContent = icon;
+            statusTitle.textContent = title;
+            statusMessage.innerHTML = message;
+            statusOverlay.classList.add('visible');
+            if (icon === '✅') {
+                statusTitle.style.color = '#38a169';
+            } else if (icon === '⚠️' || icon === '❌') {
+                statusTitle.style.color = '#f56565';
             } else {
-                document.getElementById('loginForm').classList.add('hidden');
-                document.getElementById('registerForm').classList.remove('hidden');
+                statusTitle.style.color = '#ff6b9d';
             }
         }
 
-        async function handleLogin() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-
-            if (!email || !password) {
-                alert('Por favor completa todos los campos');
-                return;
-            }
-
-            try {
-                const res = await fetch('/auth/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, password })
-                });
-
-                const data = await res.json();
-
-                if (data.success) {
-                    currentUser = data.user;
-                    localStorage.setItem('userId', data.user.id);
-                    showMainApp();
-                } else {
-                    alert(data.message || 'Error al iniciar sesión');
-                }
-            } catch (error) {
-                alert('Error de conexión');
-            }
+        function closeStatusModal() {
+            statusOverlay.classList.remove('visible');
         }
 
-        async function handleRegister() {
+        // --- Auth Functions (Updated with Status Modal) ---
+        tabLogin.addEventListener('click', () => {
+            tabLogin.classList.add('active');
+            tabRegister.classList.remove('active');
+            loginForm.style.display = 'block';
+            registerForm.style.display = 'none';
+            document.getElementById('mainTitle').textContent = 'Sistema de Reservas';
+        });
+
+        tabRegister.addEventListener('click', () => {
+            tabRegister.classList.add('active');
+            tabLogin.classList.remove('active');
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            document.getElementById('mainTitle').textContent = 'Crear Cuenta';
+        });
+
+        registerForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
             const name = document.getElementById('registerName').value;
             const email = document.getElementById('registerEmail').value;
             const phone = document.getElementById('registerPhone').value;
             const password = document.getElementById('registerPassword').value;
-
-            if (!name || !email || !phone || !password) {
-                alert('Por favor completa todos los campos');
-                return;
-            }
+            const messageElement = document.getElementById('registerMessage');
+            messageElement.textContent = 'Registrando...';
+            messageElement.style.color = 'yellow';
 
             try {
                 const res = await fetch('/auth/register', {
@@ -798,217 +930,517 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name, email, phone, password })
                 });
-
                 const data = await res.json();
 
                 if (data.success) {
-                    alert('¡Cuenta creada! Ahora puedes iniciar sesión');
-                    showAuthTab('login');
-                    document.getElementById('loginEmail').value = email;
+                    messageElement.textContent = '✅ ¡Registro exitoso! Por favor, inicia sesión.';
+                    messageElement.style.color = '#38a169';
+
+                    // Resetear a la pestaña de login
+                    setTimeout(() => {
+                        tabLogin.click();
+                        document.getElementById('loginEmail').value = email;
+                        messageElement.textContent = '';
+                        document.getElementById('registerForm').reset();
+                    }, 2000);
+
+                    // Mostrar mensaje de "Ha sido registrado"
+                    showStatusModal('📝', '¡Ha sido registrado!', `Tu cuenta se ha creado exitosamente. Ahora puedes iniciar sesión.`);
+
                 } else {
-                    alert(data.message || 'Error al registrarse');
+                    messageElement.textContent = `❌ ${data.message}`;
+                    messageElement.style.color = '#f56565';
                 }
             } catch (error) {
-                alert('Error de conexión');
+                messageElement.textContent = '❌ Error de conexión con el servidor.';
+                messageElement.style.color = '#f56565';
             }
-        }
-
-        function handleLogout() {
-            currentUser = null;
-            localStorage.removeItem('userId');
-            document.getElementById('authScreen').classList.remove('hidden');
-            document.getElementById('mainApp').classList.add('hidden');
-        }
-
-        // APP FUNCTIONS
-        function showMainApp() {
-            document.getElementById('authScreen').classList.add('hidden');
-            document.getElementById('mainApp').classList.remove('hidden');
-            document.getElementById('userName').textContent = currentUser.name;
-            document.getElementById('userDiscount').textContent = currentUser.appointmentCount > 0 ? '1' : '0';
-            
-            renderServices();
-            generateTimeSlots();
-            loadUserAppointments();
-        }
-
-        function showSection(section) {
-            document.querySelectorAll('.btn-nav').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-
-            if (section === 'booking') {
-                document.getElementById('bookingSection').classList.remove('hidden');
-                document.getElementById('appointmentsSection').classList.add('hidden');
-            } else {
-                document.getElementById('bookingSection').classList.add('hidden');
-                document.getElementById('appointmentsSection').classList.remove('hidden');
-                loadUserAppointments();
-            }
-        }
-
-        function renderServices() {
-            const grid = document.getElementById('servicesGrid');
-            grid.innerHTML = '';
-
-            services.forEach(service => {
-                const discount = currentUser.appointmentCount > 0 ? 2 : 0;
-                const finalPrice = service.price - discount;
-
-                const card = document.createElement('div');
-                card.className = 'service-card';
-                card.innerHTML = `
-                    <div class="service-icon">${service.icon}</div>
-                    <div class="service-name">${service.name}</div>
-                    <div class="service-duration">⏱️ ${service.duration} minutos</div>
-                    <div class="service-price">${finalPrice}€</div>
-                    ${discount > 0 ? `<div class="discount-badge">-${discount}€ descuento</div>` : ''}
-                `;
-                card.onclick = () => selectService(service);
-                grid.appendChild(card);
-            });
-        }
-
-        function selectService(service) {
-            document.querySelectorAll('.service-card').forEach(c => c.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            selectedService = service;
-            validateForm();
-        }
-
-        function generateTimeSlots() {
-            const grid = document.getElementById('timeGrid');
-            grid.innerHTML = '';
-
-            for (let h = 9; h <= 19; h++) {
-                ['00', '30'].forEach(m => {
-                    if (h === 19 && m === '30') return;
-                    const time = `${h.toString().padStart(2, '0')}:${m}`;
-                    const slot = document.createElement('div');
-                    slot.className = 'time-slot';
-                    slot.textContent = time;
-                    slot.onclick = () => selectTime(time);
-                    grid.appendChild(slot);
-                });
-            }
-        }
-
-        function selectTime(time) {
-            document.querySelectorAll('.time-slot').forEach(s => s.classList.remove('active'));
-            event.currentTarget.classList.add('active');
-            selectedTime = time;
-            validateForm();
-        }
-
-        document.getElementById('date').addEventListener('change', (e) => {
-            selectedDate = e.target.value;
-            validateForm();
         });
 
-        function validateForm() {
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = !(selectedService && selectedTime && selectedDate);
-        }
-
-        async function handleBooking() {
-            const btn = document.getElementById('submitBtn');
-            btn.textContent = 'Procesando...';
-            btn.disabled = true;
-
-            const discount = currentUser.appointmentCount > 0 ? 2 : 0;
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            const messageElement = document.getElementById('loginMessage');
+            messageElement.textContent = 'Iniciando sesión...';
+            messageElement.style.color = 'yellow';
 
             try {
-                const res = await fetch('/reservar', {
+                const res = await fetch('/auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        userId: currentUser.id,
-                        date: `${selectedDate} ${selectedTime}`,
-                        type: selectedService.id,
-                        nombre: currentUser.name.split(' ')[0],
-                        apellido: currentUser.name.split(' ').slice(1).join(' '),
-                        email: currentUser.email,
-                        telefono: currentUser.phone,
-                        discount: discount
-                    })
+                    body: JSON.stringify({ email, password })
                 });
-
                 const data = await res.json();
 
                 if (data.success) {
-                    alert('¡Cita confirmada! Recibirás un email de confirmación');
-                    currentUser.appointmentCount++;
-                    location.reload();
+                    localStorage.setItem('userId', data.user.id);
+                    currentUser = data.user;
+                    messageElement.textContent = '✅ ¡Bienvenido!';
+                    messageElement.style.color = '#38a169';
+                    setTimeout(showMainApp, 500);
                 } else {
-                    alert(data.message || 'Error al crear la cita');
-                    btn.textContent = 'Confirmar Reserva';
-                    btn.disabled = false;
+                    messageElement.textContent = `❌ ${data.message}`;
+                    messageElement.style.color = '#f56565';
                 }
             } catch (error) {
-                alert('Error de conexión');
-                btn.textContent = 'Confirmar Reserva';
-                btn.disabled = false;
+                messageElement.textContent = '❌ Error de conexión con el servidor.';
+                messageElement.style.color = '#f56565';
             }
+        });
+
+        btnLogout.addEventListener('click', () => {
+            localStorage.removeItem('userId');
+            currentUser = null;
+            showAuthScreen();
+            showStatusModal('👋', 'Sesión Cerrada', 'Has cerrado sesión exitosamente.');
+        });
+
+        function showAuthScreen() {
+            authScreen.style.display = 'block';
+            mainAppScreen.style.display = 'none';
+            document.getElementById('mainTitle').textContent = 'Sistema de Reservas';
+            document.getElementById('mainSubtitle').textContent = 'Salón de Belleza';
         }
 
-        async function loadUserAppointments() {
+        function showMainApp() {
+            // Update UI with user info
+            document.getElementById('userNameDisplay').textContent = currentUser.name;
+            document.getElementById('userAvatar').textContent = currentUser.name.charAt(0).toUpperCase();
+            document.getElementById('appointmentCountDisplay').textContent = currentUser.appointmentCount;
+
+            // Set recurring status
+            isRecurring = currentUser.appointmentCount > 0;
+
+            // Show main screen
+            authScreen.style.display = 'none';
+            mainAppScreen.style.display = 'block';
+            document.getElementById('mainTitle').textContent = 'Bienvenido, ' + currentUser.name.split(' ')[0];
+            document.getElementById('mainSubtitle').textContent = 'Reserva tu próximo servicio';
+
+            // Hide loading screen
+            loadingScreen.classList.add('hidden');
+
+            // Default view to Booking
+            showBookingSection();
+            updatePriceDetails(); // Also renders PayPal button
+        }
+
+        // --- Navigation Functions ---
+        btnNavBook.addEventListener('click', showBookingSection);
+        btnNavAppointments.addEventListener('click', showAppointmentsSection);
+
+        function showBookingSection() {
+            bookingSection.style.display = 'block';
+            appointmentsSection.style.display = 'none';
+            btnNavBook.classList.add('active');
+            btnNavAppointments.classList.remove('active');
+        }
+
+        async function showAppointmentsSection() {
+            bookingSection.style.display = 'none';
+            appointmentsSection.style.display = 'block';
+            btnNavBook.classList.remove('active');
+            btnNavAppointments.classList.add('active');
+
+            await fetchAppointments();
+        }
+
+        // --- Appointment Functions ---
+        async function fetchAppointments() {
+            myAppointmentsList.innerHTML = '<p style="color: white; text-align: center;">Cargando citas...</p>';
+
             try {
                 const res = await fetch(`/appointments/${currentUser.id}`);
                 const data = await res.json();
 
-                if (data.success) {
+                if (data.success && data.appointments) {
                     renderAppointments(data.appointments);
+                } else {
+                    myAppointmentsList.innerHTML = `<p style="color: white; text-align: center;">${data.message || 'Error al cargar citas.'}</p>`;
                 }
             } catch (error) {
-                console.error('Error cargando citas');
+                myAppointmentsList.innerHTML = '<p style="color: #f56565; text-align: center;">Error de conexión con el servidor.</p>';
             }
         }
 
         function renderAppointments(appointments) {
-            const list = document.getElementById('appointmentsList');
-            
             if (appointments.length === 0) {
-                list.innerHTML = '<p style="color: white; text-align: center; padding: 40px;">No tienes citas programadas</p>';
+                myAppointmentsList.innerHTML = '<p style="color: white; text-align: center;">No tienes citas programadas. ¡Reserva una!</p>';
                 return;
             }
 
-            list.innerHTML = appointments.map(apt => `
-                <div class="appointment-card">
-                    <div class="appointment-header">
-                        <div class="appointment-service">${apt.service}</div>
-                        <div class="appointment-status status-confirmed">Confirmada</div>
+            myAppointmentsList.innerHTML = appointments.map(apt => {
+                const isCompleted = apt.status === 'Completado';
+                const statusClass = isCompleted ? 'status-confirmed' : 'status-pending';
+                const statusText = apt.status === 'Completado' ? 'Pago Completado' : apt.status === 'Pendiente' ? 'Pendiente de Pago en Tienda' : apt.status;
+                const priceText = apt.paymentMethod === 'Tienda' ? `${parseFloat(apt.price).toFixed(2)}€` : `${parseFloat(apt.price).toFixed(2)}€ (Costo Bruto PayPal)`;
+
+                return `
+                    <div class="appointment-card">
+                        <div class="appointment-header">
+                            <div class="appointment-service">${apt.service}</div>
+                            <div class="appointment-status ${statusClass}">${statusText}</div>
+                        </div>
+                        <div class="appointment-details">
+                            📅 ${apt.date} a las ${apt.time}<br>
+                            ⏱️ ${apt.duration} minutos<br>
+                            💰 ${priceText}<br>
+                            💳 Método: ${apt.paymentMethod}
+                        </div>
                     </div>
-                    <div class="appointment-details">
-                        📅 ${new Date(apt.date).toLocaleString('es-ES')}<br>
-                        ⏱️ ${apt.duration} minutos<br>
-                        💰 ${apt.price}€
-                    </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
+
+        // --- Booking Form Logic ---
+
+        // Update Time Slots (UNCHANGED LOGIC)
+        dateInput.addEventListener('change', updateTimeSlots);
+        serviceKey.addEventListener('change', () => {
+            updateTimeSlots();
+            updatePriceDetails();
+        });
+
+        function updateTimeSlots() {
+            timeSelect.innerHTML = '<option value="">Seleccionar Hora</option>';
+            const selectedDate = dateInput.value;
+            const selectedService = serviceKey.value;
+
+            if (selectedDate && selectedService) {
+                // Lógica de slots (debe ser reemplazada por una llamada al servidor para disponibilidad real)
+                const slots = ['10:00', '11:00', '12:00', '16:00', '17:00', '18:00'];
+                slots.forEach(slot => {
+                    const option = document.createElement('option');
+                    option.value = slot;
+                    option.textContent = slot;
+                    timeSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Update Price Details and PayPal Commission (UPDATED)
+        serviceKey.addEventListener('change', updatePriceDetails);
+
+        async function updatePriceDetails() {
+            const selectedServiceKey = serviceKey.value;
+            const service = services[selectedServiceKey];
+
+            if (!service) {
+                basePriceDisplay.textContent = '0.00';
+                netPriceDisplay.textContent = '0.00';
+                discountText.textContent = '';
+                finalNetPrice = 0;
+                paypalGrossPriceDisplay.textContent = '0.00€';
+                renderPayPalButton(); // Clear button
+                return;
+            }
+
+            let price = service.price;
+            let netPriceCalc = price;
+
+            // Apply discount if recurring user (isRecurring is set in showMainApp)
+            if (isRecurring) {
+                netPriceCalc -= 2;
+                discountText.textContent = '(¡-2.00€ Descuento Cliente Fiel!)';
+            } else {
+                discountText.textContent = '';
+            }
+
+            finalNetPrice = netPriceCalc;
+
+            basePriceDisplay.textContent = price.toFixed(2);
+            netPriceDisplay.textContent = finalNetPrice.toFixed(2);
+
+            // Calculate PayPal Gross Price
+            try {
+                const res = await fetch('/api/paypal/calculate-gross-price', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ netPrice: finalNetPrice })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    finalGrossPrice = parseFloat(data.grossPrice);
+                    paypalGrossPriceDisplay.textContent = `${data.grossPrice}€`;
+                    netPriceForPaypal.textContent = `${data.netPrice}€`;
+                    paypalCommissionInfo.style.display = 'block';
+                } else {
+                    console.error('Error calculando comisión de PayPal:', data.message);
+                    paypalGrossPriceDisplay.textContent = 'Error';
+                    paypalCommissionInfo.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Error de red al calcular comisión de PayPal:', error);
+                paypalGrossPriceDisplay.textContent = 'Error';
+                paypalCommissionInfo.style.display = 'none';
+            }
+
+            // Re-render PayPal button with new price
+            renderPayPalButton();
+        }
+
+        // Handle payment method change (UPDATED)
+        radioTienda.addEventListener('change', () => {
+            btnBookAppointment.style.display = 'block';
+            btnBookAppointment.textContent = 'Confirmar Reserva (Pagar en Tienda)';
+            paypalButtonContainer.style.display = 'none';
+            inStorePaymentDetails.style.display = 'block';
+            paypalCommissionInfo.style.display = 'none';
+            bookingMessage.textContent = 'Tu reserva será registrada como pendiente de pago.';
+            bookingMessage.style.color = 'white';
+        });
+
+        radioPaypal.addEventListener('change', () => {
+            btnBookAppointment.style.display = 'none';
+            paypalButtonContainer.style.display = 'block';
+            inStorePaymentDetails.style.display = 'none';
+            if(finalNetPrice > 0) paypalCommissionInfo.style.display = 'block';
+
+            bookingMessage.textContent = 'El pago se procesará a través de PayPal al precio indicado.';
+            bookingMessage.style.color = 'white';
+
+            // Ensure PayPal button is rendered/updated
+            renderPayPalButton();
+        });
+
+        // Main booking button listener (Now only for Tienda)
+        btnBookAppointment.addEventListener('click', handleBooking);
+
+        async function handleBooking() {
+            const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked').value;
+
+            if (paymentMethod === 'tienda') {
+                await bookAppointmentTienda();
+            }
+        }
+
+        async function bookAppointmentTienda() {
+            const serviceKeyVal = serviceKey.value;
+            const dateVal = dateInput.value;
+            const timeVal = timeSelect.value;
+
+            if (!serviceKeyVal || !dateVal || !timeVal) {
+                bookingMessage.textContent = '⚠️ Por favor, selecciona servicio, fecha y hora.';
+                bookingMessage.style.color = '#f59e0b';
+                return;
+            }
+
+            bookingMessage.textContent = 'Procesando reserva con pago en tienda...';
+            bookingMessage.style.color = 'yellow';
+            btnBookAppointment.disabled = true;
+
+            try {
+                const res = await fetch('/appointments', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: currentUser.id,
+                        serviceKey: serviceKeyVal,
+                        date: dateVal,
+                        time: timeVal,
+                        isRecurring: isRecurring,
+                    })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showStatusModal(
+                        '📝',
+                        '¡Reserva Registrada!',
+                        `Tu cita para **${services[serviceKeyVal].name}** ha sido registrada exitosamente.
+                        <br>
+                        El pago de **${finalNetPrice.toFixed(2)}€** se realizará directamente **en la tienda** el día de tu cita.
+                        <br>
+                        Revisa tu email para la confirmación.
+                        `
+                    );
+                    // Clear form and update user data
+                    document.getElementById('bookAppointmentForm').reset();
+                    updatePriceDetails();
+                    currentUser.appointmentCount++;
+                    showMainApp(); // Refresh user info
+                } else {
+                    showStatusModal('❌', 'Error al Reservar', data.message || 'Error desconocido al crear la cita.');
+                }
+            } catch (error) {
+                showStatusModal('❌', 'Error de Conexión', 'No se pudo conectar con el servidor para procesar la reserva.');
+            } finally {
+                btnBookAppointment.disabled = false;
+                bookingMessage.textContent = '';
+            }
+        }
+
+        // --- PayPal Integration (NEW) ---
+
+        function renderPayPalButton() {
+            // Clear previous buttons
+            paypalButtonContainer.innerHTML = '';
+
+            // Only render if PayPal is selected and we have a valid price
+            if (radioPaypal.checked && finalGrossPrice > 0) {
+                paypal.Buttons({
+                    style: {
+                        shape: 'pill',
+                        layout: 'vertical',
+                        color: 'gold',
+                        label: 'pay'
+                    },
+
+                    // 1. Set up the transaction (call server to create order)
+                    createOrder: function(data, actions) {
+                        bookingMessage.textContent = 'Creando orden de pago con PayPal...';
+                        bookingMessage.style.color = 'yellow';
+
+                        const serviceKeyVal = serviceKey.value;
+                        const service = services[serviceKeyVal];
+
+                        // Call server to create PayPal order (using Gross Price)
+                        return fetch('/api/paypal/create-order', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                grossPrice: finalGrossPrice.toFixed(2), // Gross Price with commission
+                                serviceName: service ? service.name : 'Reserva de Servicio'
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(orderData => {
+                            if (orderData.success) {
+                                return orderData.orderID;
+                            } else {
+                                throw new Error(orderData.message);
+                            }
+                        })
+                        .catch(error => {
+                            bookingMessage.textContent = `❌ Error en PayPal: ${error.message}`;
+                            bookingMessage.style.color = '#f56565';
+                            // Propagate error to PayPal SDK
+                            return actions.reject(error);
+                        });
+                    },
+
+                    // 2. Finalize the transaction (call server to capture payment and process booking)
+                    onApprove: function(data, actions) {
+                        bookingMessage.textContent = 'Capturando pago y confirmando reserva...';
+                        bookingMessage.style.color = 'yellow';
+
+                        const serviceKeyVal = serviceKey.value;
+                        const dateVal = dateInput.value;
+                        const timeVal = timeSelect.value;
+
+                        if (!serviceKeyVal || !dateVal || !timeVal) {
+                            showStatusModal('❌', 'Error de Reserva', 'Faltan datos de la reserva. Contacta con soporte.');
+                            bookingMessage.textContent = '';
+                            return;
+                        }
+
+                        // Call server to capture PayPal payment and process booking
+                        return fetch('/api/paypal/capture-order', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                orderID: data.orderID,
+                                userId: currentUser.id,
+                                serviceKey: serviceKeyVal,
+                                date: dateVal,
+                                time: timeVal,
+                                isRecurring: isRecurring,
+                                netPrice: finalNetPrice // Net price needed for server's commission check
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                showStatusModal(
+                                    '✅',
+                                    '¡Pago Completado!',
+                                    `Tu reserva para **${services[serviceKeyVal].name}** ha sido pagada y confirmada con éxito.
+                                    <br>
+                                    El cargo total fue de **${finalGrossPrice.toFixed(2)}€**.
+                                    <br>
+                                    Revisa tu email para la confirmación.
+                                    `
+                                );
+                                // Clear form and update user data
+                                document.getElementById('bookAppointmentForm').reset();
+                                updatePriceDetails();
+                                currentUser.appointmentCount++;
+                                showMainApp(); // Refresh user info
+                            } else {
+                                showStatusModal('❌', 'Error de Pago', data.message || 'Error desconocido al confirmar el pago.');
+                            }
+                            bookingMessage.textContent = '';
+                        })
+                        .catch(error => {
+                            showStatusModal('❌', 'Error de Red/Servidor', 'Ocurrió un error en el servidor al confirmar el pago. Por favor, revisa tu cuenta de PayPal.');
+                            bookingMessage.textContent = '';
+                            console.error('Capture Error:', error);
+                        });
+                    },
+
+                    // Handle cancellation
+                    onCancel: function (data) {
+                        bookingMessage.textContent = 'Pago cancelado por el usuario.';
+                        bookingMessage.style.color = '#f59e0b';
+                    },
+
+                    // Handle error
+                    onError: function (err) {
+                        showStatusModal('❌', 'Error de PayPal', `Ocurrió un error con el proceso de pago. (${err.message || ''})`);
+                        bookingMessage.textContent = '';
+                        console.error('PayPal Error:', err);
+                    }
+                }).render('#paypal-button-container');
+            } else if (radioPaypal.checked) {
+                // If PayPal is checked but price is 0 or no service selected
+                paypalButtonContainer.innerHTML = '<p style="color:white; text-align:center;">Selecciona un servicio y fecha/hora para habilitar el pago.</p>';
+            }
+        }
+
+        // Listen for booking form changes to re-render the button/price
+        document.getElementById('bookAppointmentForm').addEventListener('change', (event) => {
+             // Only force re-render if a key field changes
+             if (event.target.id === 'serviceKey' || event.target.id === 'date' || event.target.id === 'time' || event.target.name === 'paymentMethod') {
+                updatePriceDetails(); // This triggers renderPayPalButton() implicitly
+            }
+        });
+
 
         // AUTO LOGIN IF TOKEN EXISTS
         window.addEventListener('load', async () => {
             const userId = localStorage.getItem('userId');
-            
+
             if (userId) {
                 try {
                     const res = await fetch(`/auth/user/${userId}`);
                     const data = await res.json();
-                    
+
                     if (data.success) {
                         currentUser = data.user;
                         showMainApp();
                     } else {
                         localStorage.removeItem('userId');
+                        loadingScreen.classList.add('hidden');
                     }
                 } catch (error) {
                     localStorage.removeItem('userId');
+                    loadingScreen.classList.add('hidden');
                 }
+            } else {
+                loadingScreen.classList.add('hidden');
             }
 
             // Set minimum date
             const today = new Date().toISOString().split('T')[0];
             document.getElementById('date').setAttribute('min', today);
+
+            // Set initial state for payment
+            radioTienda.checked = true;
+            document.getElementById('btnBookAppointment').style.display = 'block';
+            inStorePaymentDetails.style.display = 'block';
+            paypalButtonContainer.style.display = 'none';
         });
     </script>
 </body>
