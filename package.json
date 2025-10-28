@@ -2,7 +2,7 @@
   "name": "sistema-reservas-peluqueria",
   "version": "1.0.0",
   "scripts": {
-    "start": "node peluqueria_server.js"
+    "start": "node ./peluqueria_server.js"
   },
   "dependencies": {
     "@paypal/checkout-server-sdk": "^1.0.3",
