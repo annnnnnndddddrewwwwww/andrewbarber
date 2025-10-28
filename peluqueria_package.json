@@ -1,0 +1,33 @@
+{
+  "name": "sistema-reservas-peluqueria",
+  "version": "1.0.0",
+  "description": "Sistema de reservas para salón de belleza con Google Sheets y Google Calendar",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "booking",
+    "hair-salon",
+    "beauty-salon",
+    "google-sheets",
+    "google-calendar",
+    "appointments"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "googleapis": "^128.0.0",
+    "nodemailer": "^6.9.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
