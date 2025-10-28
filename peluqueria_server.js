@@ -1,6 +1,6 @@
 const express = require('express');
 const { google } = require('googleapis');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend'); // ⬅️ CAMBIO: Importar Resend
 const cors = require('cors');
 const crypto = require('crypto');
 const path = require('path');
@@ -50,31 +50,12 @@ const SHEET_ID = process.env.SHEET_ID;
 const CALENDAR_ID = process.env.CALENDAR_ID;
 const CALENDAR_OWNER_EMAIL = process.env.CALENDAR_OWNER_EMAIL;
 
-// ===== NODEMAILER SETUP =====
-console.log('Configurando Nodemailer...');
-console.log('EMAIL_USER:', process.env.EMAIL_USER);
-
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    },
-    connectionTimeout: 10000,
-    greetingTimeout: 5000,
-    socketTimeout: 15000,
-    debug: true,
-    logger: true
-});
-
-// Verificar conexión
-transporter.verify(function (error, success) {
-    if (error) {
-        console.error('❌ Error de conexión con Gmail:', error);
-    } else {
-        console.log('✅ Servidor de correo listo');
-    }
-});
+// ===== RESEND SETUP ===== ⬅️ CAMBIO: Reemplazar Nodemailer por Resend
+console.log('Configurando Resend...');
+const resend = new Resend(process.env.RESEND_API_KEY);
+const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
+console.log('📧 Email configurado:', FROM_EMAIL);
+console.log('✅ Resend listo para enviar emails');
 
 // ===== PAYPAL CONFIG & COMMISSION CALCULATION =====
 const PAYPAL_RATE = 0.029;
@@ -113,7 +94,7 @@ async function getUserFromSheet(email) {
         });
 
         const rows = response.data.values || [];
-        const userRow = rows.slice(1).find(row => row[2] === email); // Skip header
+        const userRow = rows.slice(1).find(row => row[2] === email);
 
         if (userRow) {
             return {
@@ -141,7 +122,7 @@ async function getUserById(userId) {
         });
 
         const rows = response.data.values || [];
-        const userRow = rows.slice(1).find(row => row[0] === userId); // Skip header
+        const userRow = rows.slice(1).find(row => row[0] === userId);
 
         if (userRow) {
             return {
@@ -284,7 +265,7 @@ async function processBooking({ userId, serviceKey, date, time, finalPrice, user
 
     // Crear evento en Google Calendar
     console.log('📆 Creando evento en Calendar...');
-    
+
     const event = {
         summary: `${service.name} - ${user.name}`,
         location: 'Salón de Belleza',
@@ -326,12 +307,8 @@ async function processBooking({ userId, serviceKey, date, time, finalPrice, user
     // Actualizar contador de citas
     await updateUserAppointmentCount(userId, user.appointmentCount + 1);
 
-    // Enviar Email
-    const mailOptions = {
-        from: `"Salón de Belleza 💇‍♀️" <${process.env.EMAIL_USER}>`,
-        to: user.email,
-        subject: `✅ Cita Confirmada: ${service.name} - ${date} a las ${time}`,
-        html: `
+    // ⬅️ CAMBIO: Enviar Email con Resend
+    const htmlContent = `
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -394,14 +371,24 @@ async function processBooking({ userId, serviceKey, date, time, finalPrice, user
     </table>
 </body>
 </html>
-        `
-    };
+    `;
 
     try {
-        await transporter.sendMail(mailOptions);
-        console.log('✅ Email enviado a:', user.email);
+        const { data, error } = await resend.emails.send({
+            from: `Salón de Belleza 💇‍♀️ <${FROM_EMAIL}>`,
+            to: user.email,
+            subject: `✅ Cita Confirmada: ${service.name} - ${date} a las ${time}`,
+            html: htmlContent
+        });
+
+        if (error) {
+            console.error('⚠️ Error enviando email con Resend:', error);
+        } else {
+            console.log('✅ Email enviado con Resend a:', user.email);
+            console.log('📧 Email ID:', data.id);
+        }
     } catch (error) {
-        console.error('⚠️ Error enviando email:', error.message);
+        console.error('⚠️ Error con Resend:', error.message);
     }
 
     return {
@@ -453,15 +440,15 @@ app.post('/auth/login', async (req, res) => {
         }
 
         console.log('✅ Login exitoso:', email);
-        res.json({ 
-            success: true, 
-            user: { 
-                id: user.id, 
-                name: user.name, 
-                email: user.email, 
-                phone: user.phone, 
-                appointmentCount: user.appointmentCount 
-            } 
+        res.json({
+            success: true,
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                appointmentCount: user.appointmentCount
+            }
         });
     } catch (error) {
         console.error('Error en login:', error);
@@ -475,15 +462,15 @@ app.get('/auth/user/:userId', async (req, res) => {
         if (!user) {
             return res.json({ success: false, message: 'Usuario no encontrado' });
         }
-        res.json({ 
-            success: true, 
-            user: { 
-                id: user.id, 
-                name: user.name, 
-                email: user.email, 
-                phone: user.phone, 
-                appointmentCount: user.appointmentCount 
-            } 
+        res.json({
+            success: true,
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                phone: user.phone,
+                appointmentCount: user.appointmentCount
+            }
         });
     } catch (error) {
         res.json({ success: false, message: 'Error obteniendo usuario' });
