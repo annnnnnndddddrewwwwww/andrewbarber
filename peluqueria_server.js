@@ -52,12 +52,32 @@ const CALENDAR_OWNER_EMAIL = process.env.CALENDAR_OWNER_EMAIL;
 
 // Nodemailer
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
-});
+    // Agregar DESPUÉS de crear transporter:
+    console.log('🔧 Configurando Nodemailer...');
+    console.log('EMAIL_USER:', process.env.EMAIL_USER);
+
+    // Configuración mejorada con timeout
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.EMAIL_USER,
+            pass: process.env.EMAIL_PASS
+        },
+        connectionTimeout: 10000, // 10 segundos
+        greetingTimeout: 5000,
+        socketTimeout: 15000,
+        debug: true,
+        logger: true
+    });
+
+    // Verificar conexión
+    transporter.verify(function (error, success) {
+        if (error) {
+            console.error('❌ Error de conexión con Gmail:', error);
+        } else {
+            console.log('✅ Servidor de correo listo');
+        }
+    });
 
 // ===== PAYPAL CONFIG & COMMISSION CALCULATION =====
 const PAYPAL_RATE = 0.029; // 2.9% de comisión de PayPal
