@@ -50,23 +50,31 @@ const SHEET_ID = process.env.SHEET_ID;
 const CALENDAR_ID = process.env.CALENDAR_ID;
 const CALENDAR_OWNER_EMAIL = process.env.CALENDAR_OWNER_EMAIL;
 
-const transporter = nodemailer.createTransport({
-    console.log('Configurando Nodemailer...');
-    console.log('EMAIL_USER:', process.env.EMAIL_USER);
+// ===== NODEMAILER SETUP =====
+console.log('Configurando Nodemailer...');
+console.log('EMAIL_USER:', process.env.EMAIL_USER);
 
-    // Configuración mejorada con timeout
-    const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-            user: process.env.EMAIL_USER,
-            pass: process.env.EMAIL_PASS
-        },
-        connectionTimeout: 10000, // 10 segundos
-        greetingTimeout: 5000,
-        socketTimeout: 15000,
-        debug: true,
-        logger: true
-    });
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    },
+    connectionTimeout: 10000, // 10 segundos
+    greetingTimeout: 5000,
+    socketTimeout: 15000,
+    debug: true,
+    logger: true
+});
+
+// Verificar conexión
+transporter.verify(function (error, success) {
+    if (error) {
+        console.error('❌ Error de conexión con Gmail:', error);
+    } else {
+        console.log('✅ Servidor de correo listo');
+    }
+});
 
     // Verificar conexión
     transporter.verify(function (error, success) {
